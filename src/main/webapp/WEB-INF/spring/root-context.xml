@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	   xmlns:tx="http://www.springframework.org/schema/tx"
-	   xmlns:p="http://www.springframework.org/schema/p"
-	   xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://mybatis.org/schema/mybatis-spring
+       http://mybatis.org/schema/mybatis-spring.xsd">
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
-	<tx:annotation-driven transaction-manager="transactionManager"/>
+    <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+        <property name="username" value="lms"/>
+        <property name="password" value="java"/>
+    </bean>
 
-	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="pc23"/>
-		<property name="password" value="java"/>
-	</bean>
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"
+    />
 
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
-		  p:dataSource-ref="dataSource"
-	/>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:mapperLocations="classpath:mybatis.mappers/*.xml"
+          p:typeAliasesPackage="ddit.template.mvc.vo.*"
+    />
 
-	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
-		  p:dataSource-ref="dataSource"
-		  p:mapperLocations="classpath:mybatis.mappers/*.xml"
-		  p:typeAliasesPackage="ddit.template.mvc.vo.*"
-	/>
+<!--    <bean id="filterMultipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver" />-->
 
-	<mybatis-spring:scan base-package="ddit.template.mvc.dao"
-						 annotation="org.springframework.stereotype.Repository"
-	/>
+    <mybatis-spring:scan base-package="ddit.template.mvc.dao"
+                         annotation="org.springframework.stereotype.Repository"
+    />
 </beans>

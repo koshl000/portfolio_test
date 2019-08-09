@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+    <bean id="logined" class="ddit.template.security.handler.LoginSuccessHandler"/>
+    <bean id="custom_logout" class="ddit.template.security.handler.CustomLogoutHandler"/>
+    <security:http>
+        <security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
+
+        <security:form-login login-page="/customLogin" authentication-success-handler-ref="logined"/>
+<!--        logout-url 실행시 세션 파괴-->
+        <security:logout invalidate-session="true"/>
+<!--        권한 이외 접근 핸들러-->
+        <security:access-denied-handler error-page="/accessError"/>
+        <security:csrf disabled="true"/>
+    </security:http>
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <security:user name="member" authorities="ROLE_MEMBER" password="member"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+</beans>
