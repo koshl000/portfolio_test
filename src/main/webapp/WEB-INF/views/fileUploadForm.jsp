@@ -70,6 +70,7 @@
     </script>
 </head>
 <body>
+---------------------------------------------
 <div class="container">
     <h2>Spring MVC - File Upload Example With Progress Bar</h2>
     <hr>
