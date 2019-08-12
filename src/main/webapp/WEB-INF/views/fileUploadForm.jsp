@@ -70,7 +70,9 @@
     </script>
 </head>
 <body>
----------------------------------------------
+---------------------------------------------<br>
+-----------------------------------------------<br>
+------------------------------------------------<br>
 <div class="container">
     <h2>Spring MVC - File Upload Example With Progress Bar</h2>
     <hr>
@@ -110,7 +112,7 @@
 
     // 웹소켓을 지정한 url로 연결한다.
 
-    let sock = new SockJS("<c:url value="${pageContext.request.contextPath}/socket"/>");
+    let sock = new SockJS("<c:url value="/socket"/>");
 
     sock.onmessage = onMessage;
 
