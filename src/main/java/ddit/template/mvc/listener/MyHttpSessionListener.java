@@ -2,12 +2,16 @@ package ddit.template.mvc.listener;
 
 import ddit.template.security.handler.LoginSuccessHandler;
 import org.springframework.beans.BeansException;
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+@Component
+@WebListener
 public class MyHttpSessionListener implements HttpSessionListener {
     private String temp;
 
